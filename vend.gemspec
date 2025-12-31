@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.homepage = 'https://github.com/coaxsoft/vend-ruby-v2'
 
   spec.require_paths = ['lib']
-  spec.files = Dir['README.md', 'lib/**/*', 'vend.gemspec']
+  spec.files = Dir['README.md', 'CHANGELOG.md', 'lib/**/*', 'vend.gemspec']
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
