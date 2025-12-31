@@ -4,6 +4,8 @@ A modern Ruby client library for the [Lightspeed Retail (X-Series/Vend) API](htt
 
 [![Ruby Version](https://img.shields.io/badge/ruby-%3E%3D%203.0.0-ruby.svg)](https://www.ruby-lang.org)
 
+This gem was entirely based on [Vend Ruby v2](https://github.com/coaxsoft/vend-ruby-v2) by Yurkiv Misha.
+
 > **📦 Migrating from vend-ruby-v2?** This gem was previously called `vend-ruby-v2`. See [MIGRATION.md](MIGRATION.md) for upgrade instructions. Full backward compatibility is maintained in v0.3.0.
 
 ## Features
