@@ -9,7 +9,7 @@ module Vend
       AUTHORIZE_URL = '/connect'
       TOKEN_URL = '/api/1.0/token'
 
-      attr_accessor :store, :client_id, :secret, :redirect_uri
+      attr_reader :store, :client_id, :secret, :redirect_uri
 
       def initialize(store, client_id, secret, redirect_uri, options = {})
         @store = store
