@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Suppliers
 # https://docs.vendhq.com/reference#suppliers-2
 

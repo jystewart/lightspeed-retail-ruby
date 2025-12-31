@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'vend/request'
 require 'vend/resource_actions'
 

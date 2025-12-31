@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Consignments
 # https://docs.vendhq.com/reference#consignments-2
 

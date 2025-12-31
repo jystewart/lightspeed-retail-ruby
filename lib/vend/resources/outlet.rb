@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Outlets
 # https://docs.vendhq.com/reference#outlets
 

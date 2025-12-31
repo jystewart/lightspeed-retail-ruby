@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # PriceBookProducts
 # https://docs.vendhq.com/reference#price-book-products
 

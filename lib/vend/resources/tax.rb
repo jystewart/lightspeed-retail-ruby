@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Taxes
 # https://docs.vendhq.com/reference#taxes
 

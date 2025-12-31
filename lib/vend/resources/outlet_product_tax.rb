@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Outlet Product Taxes
 # https://docs.vendhq.com/reference#outlet-product-taxes
 

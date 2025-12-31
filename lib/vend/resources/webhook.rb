@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Webhooks
 # https://docs.vendhq.com/reference#webhooks-1
 

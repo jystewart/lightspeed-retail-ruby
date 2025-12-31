@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Vend
   class ResourceActions < Module
     attr_reader :options

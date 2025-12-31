@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Products
 # https://docs.vendhq.com/reference#products-2
 

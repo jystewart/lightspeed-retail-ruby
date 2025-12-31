@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Tags
 # https://docs.vendhq.com/reference#tags
 

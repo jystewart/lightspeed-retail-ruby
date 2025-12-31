@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # ProductTypes
 # https://docs.vendhq.com/reference#product_types
 

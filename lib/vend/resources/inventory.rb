@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Inventory
 # https://docs.vendhq.com/reference#inventory
 

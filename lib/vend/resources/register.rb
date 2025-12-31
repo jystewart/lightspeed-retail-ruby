@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Registers
 # https://docs.vendhq.com/reference#registers
 

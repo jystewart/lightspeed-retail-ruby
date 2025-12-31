@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Vend
   class Config < Hashie::Mash
     def api_url

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Users
 # https://docs.vendhq.com/reference#users-2
 
