@@ -29,6 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'webmock'
 
   spec.add_dependency 'faraday', '~> 2.13'
+  spec.add_dependency 'faraday-retry', '~> 2.2'
   spec.add_dependency 'hashie', '~> 5.0'
   spec.add_dependency 'jwt', '~> 3.1'
   spec.add_dependency 'oauth2'
