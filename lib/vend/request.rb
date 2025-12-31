@@ -24,9 +24,9 @@ module Vend
   class Request < Module
     def initialize(version, uri)
       @uri = case version
-      when '0.9'
+      in '0.9'
         uri
-      when '1.0', '2.0'
+      in '1.0' | '2.0'
         "#{version}/#{uri}"
       else
         "2.0/#{uri}"
