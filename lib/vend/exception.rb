@@ -51,9 +51,8 @@ module Vend
           {}
         end
       end
-      unless env[:response_headers] && env[:response_headers]['X-Retry-After'].nil?
-        response_headers[:retry_after] = env[:response_headers]['X-Retry-After'].to_i
-      end
+      retry_after = env[:response_headers]&.[]('X-Retry-After')
+      response_headers[:retry_after] = retry_after.to_i if retry_after
       raise ERRORS[code].new(response_headers), env.body
     end
   end
