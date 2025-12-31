@@ -11,11 +11,9 @@ module Vend
     end
 
     def build(key = nil)
-      if key
-        "#{uri}/#{key}"
-      else
-        uri
-      end
+      return uri unless key
+
+      +"#{uri}/#{key}"
     end
 
     def to_s
