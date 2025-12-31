@@ -29,7 +29,7 @@ module Vend
       end
 
       def refresh_token(auth_token, refresh_token)
-        access_token = OAuth2::AccessToken.new(get_oauth2_client(store), auth_token, {refresh_token: refresh_token})
+        access_token = OAuth2::AccessToken.new(get_oauth2_client(store), auth_token, { refresh_token: refresh_token })
         access_token.refresh!
       end
 
