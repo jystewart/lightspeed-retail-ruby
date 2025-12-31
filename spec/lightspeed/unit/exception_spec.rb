@@ -1,5 +1,5 @@
-RSpec.describe Vend::HttpErrors do
-  let(:dummy_class) { Class.new { extend Vend::HttpErrors } }
+RSpec.describe Lightspeed::HttpErrors do
+  let(:dummy_class) { Class.new { extend Lightspeed::HttpErrors } }
   let(:code) { 200 }
   let(:env) { double }
   let(:body) { {} }
@@ -11,7 +11,7 @@ RSpec.describe Vend::HttpErrors do
   end
 
   it '::ERRORS is not nil' do
-    expect(Vend::HttpErrors::ERRORS).not_to be_nil
+    expect(Lightspeed::HttpErrors::ERRORS).not_to be_nil
   end
 
   context 'invalid response status' do
@@ -19,13 +19,13 @@ RSpec.describe Vend::HttpErrors do
       let(:code) { 404 }
 
       it 'should throw an exception' do
-        expect { dummy_class.throw_http_exception!(code, env) }.to raise_exception(Vend::HttpErrors::ERRORS[code])
+        expect { dummy_class.throw_http_exception!(code, env) }.to raise_exception(Lightspeed::HttpErrors::ERRORS[code])
       end
     end
 
     it 'should have a valid error' do
-      Vend::HttpErrors::ERRORS.keys.each do |code|
-        expect { dummy_class.throw_http_exception!(code, env) }.to raise_exception(Vend::HttpErrors::ERRORS[code])
+      Lightspeed::HttpErrors::ERRORS.keys.each do |code|
+        expect { dummy_class.throw_http_exception!(code, env) }.to raise_exception(Lightspeed::HttpErrors::ERRORS[code])
       end
     end
 
@@ -37,7 +37,7 @@ RSpec.describe Vend::HttpErrors do
       it 'should parse out a retry-after header if present' do
         begin
           dummy_class.throw_http_exception!(code, env)
-        rescue Vend::TooManyRequests => e
+        rescue Lightspeed::TooManyRequests => e
           expect(e.response_headers[:retry_after]).to eq 1
         end
       end
@@ -50,7 +50,7 @@ RSpec.describe Vend::HttpErrors do
       it 'handle string in body' do
         begin
           dummy_class.throw_http_exception!(code, env)
-        rescue Vend::Unauthorized => e
+        rescue Lightspeed::Unauthorized => e
           expect(e.message).to eq body
         end
       end

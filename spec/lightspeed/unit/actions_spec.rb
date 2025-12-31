@@ -1,11 +1,11 @@
-RSpec.describe Vend::ResourceActions do
+RSpec.describe Lightspeed::ResourceActions do
   before do
-    module Vend
+    module Lightspeed
       class DummyClass
         include ResourceActions.new(api_version: '0.9', uri: 'http://foo.bar')
       end
     end
-    @klass = Vend::DummyClass
+    @klass = Lightspeed::DummyClass
   end
 
   let(:params) do
@@ -13,7 +13,7 @@ RSpec.describe Vend::ResourceActions do
   end
 
   it 'should have options' do
-    mod = Vend::ResourceActions.new(
+    mod = Lightspeed::ResourceActions.new(
       uri: 'http://foo.bar',
       disable: [:find,:all]
     )

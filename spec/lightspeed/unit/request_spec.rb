@@ -1,22 +1,22 @@
-RSpec.describe Vend::Request do
+RSpec.describe Lightspeed::Request do
   before do
-    module Vend
+    module Lightspeed
       class DummyClass
         include Request.new('0.9', 'foo/%d')
       end
     end
-    @klass = Vend::DummyClass
+    @klass = Lightspeed::DummyClass
   end
 
   describe '.path' do
     it 'should have a path method to expose the path_builder' do
-      expect(@klass.path).to be_kind_of Vend::PathBuilder
+      expect(@klass.path).to be_kind_of Lightspeed::PathBuilder
     end
   end
 
   describe 'ClassMethods' do
     before do
-      double Vend.api
+      double Lightspeed.api
     end
 
     let(:json) { "{\"body\":[{\"time\":1426184190},{\"time\":1426184190}]}" }
@@ -60,15 +60,15 @@ RSpec.describe Vend::Request do
 
     describe '.raw_request' do
       before do
-        Vend.configure do |config|
+        Lightspeed.configure do |config|
           config.client_id = 'sdbgksjbg4'
           config.access_token = 'jkdgbdsgbg'
           config.store_hash = 'sdgjnsdjg'
         end
-        @api = Vend.api
+        @api = Lightspeed.api
       end
 
-      it 'send its method to Vend.api' do
+      it 'send its method to Lightspeed.api' do
         response = double
         allow(@api).to receive(:get) { response }
         expect(@api).to receive(:get).with('path/1', {})
@@ -79,7 +79,7 @@ RSpec.describe Vend::Request do
     describe 'private methods' do
       describe '.build_response_object' do
         before do
-          module Vend
+          module Lightspeed
             class DummyClass
               include Request.new(0.9, 'foo/%d')
               def initialize(params)
@@ -87,7 +87,7 @@ RSpec.describe Vend::Request do
               end
             end
           end
-          @klass_with_init = Vend::DummyClass
+          @klass_with_init = Lightspeed::DummyClass
         end
 
         describe 'json array' do
@@ -140,10 +140,10 @@ RSpec.describe Vend::Request do
   end
 end
 
-describe Vend::PathBuilder do
+describe Lightspeed::PathBuilder do
   let(:uri) { 'bar' }
   before do
-    @path_builder = Vend::PathBuilder.new uri
+    @path_builder = Lightspeed::PathBuilder.new uri
   end
 
   describe '.to_s' do

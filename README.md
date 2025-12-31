@@ -1,8 +1,10 @@
-# Vend Ruby SDK (v2)
+# Lightspeed Retail Ruby SDK
 
 A modern Ruby client library for the [Lightspeed Retail (X-Series/Vend) API](https://x-series-api.lightspeedhq.com/).
 
 [![Ruby Version](https://img.shields.io/badge/ruby-%3E%3D%203.0.0-ruby.svg)](https://www.ruby-lang.org)
+
+> **📦 Migrating from vend-ruby-v2?** This gem was previously called `vend-ruby-v2`. See [MIGRATION.md](MIGRATION.md) for upgrade instructions. Full backward compatibility is maintained in v0.3.0.
 
 ## Features
 
@@ -10,14 +12,14 @@ A modern Ruby client library for the [Lightspeed Retail (X-Series/Vend) API](htt
 - ✅ **Automatic Retry Logic** - Built-in handling for rate limits and transient failures
 - ✅ **Modern Ruby 3+** - Leverages latest Ruby features and idioms
 - ✅ **Thread-Safe** - Support for concurrent API requests
-- ✅ **Comprehensive** - Full coverage of Vend API v2.0 resources
+- ✅ **Comprehensive** - Full coverage of Lightspeed Retail API v2.0 resources
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'vend-ruby-v2'
+gem 'lightspeed-retail-ruby'
 ```
 
 And then execute:
@@ -29,28 +31,28 @@ $ bundle install
 Or install it yourself as:
 
 ```bash
-$ gem install vend-ruby-v2
+$ gem install lightspeed-retail-ruby
 ```
 
 ## Quick Start
 
 ```ruby
 # Configure the client
-Vend.configure do |config|
-  config.domain_prefix = ENV['VEND_DOMAIN_PREFIX']  # Your store name
-  config.access_token = ENV['VEND_ACCESS_TOKEN']    # OAuth token
+Lightspeed.configure do |config|
+  config.domain_prefix = ENV['LIGHTSPEED_DOMAIN_PREFIX']  # Your store name
+  config.access_token = ENV['LIGHTSPEED_ACCESS_TOKEN']    # OAuth token
 end
 
 # Fetch a single page of products
-products = Vend::Product.all
+products = Lightspeed::Product.all
 # => {:data=>[{:id=>"...", :name=>"Product 1", ...}], :version=>{:min=>1, :max=>100}}
 
 # Fetch all products automatically (handles pagination)
-all_products = Vend::Product.auto_paginate_v2
+all_products = Lightspeed::Product.auto_paginate_v2
 # => [{:id=>"...", :name=>"Product 1"}, {:id=>"...", :name=>"Product 2"}, ...]
 
 # Fetch a specific product
-product = Vend::Product.find("product-id-here")
+product = Lightspeed::Product.find("product-id-here")
 # => {:data=>{:id=>"...", :name=>"Product 1", ...}}
 ```
 
@@ -64,15 +66,15 @@ Automatically fetch all pages and return a flat array:
 
 ```ruby
 # Fetch all products across all pages
-all_products = Vend::Product.auto_paginate_v2
+all_products = Lightspeed::Product.auto_paginate_v2
 # => [{...}, {...}, ...] (all products)
 
 # With filters
-deleted_products = Vend::Product.auto_paginate_v2(deleted: true)
+deleted_products = Lightspeed::Product.auto_paginate_v2(deleted: true)
 
 # Works with all v2.0 resources
-all_customers = Vend::Customer.auto_paginate_v2
-all_sales = Vend::Sale.auto_paginate_v2
+all_customers = Lightspeed::Customer.auto_paginate_v2
+all_sales = Lightspeed::Sale.auto_paginate_v2
 ```
 
 ### Manual Pagination (Memory Efficient)
@@ -80,7 +82,7 @@ all_sales = Vend::Sale.auto_paginate_v2
 Process pages one at a time for better memory efficiency:
 
 ```ruby
-Vend::Product.each_page_v2 do |products|
+Lightspeed::Product.each_page_v2 do |products|
   products.each do |product|
     puts "Processing: #{product[:name]}"
     # Process each product without loading everything into memory
@@ -88,7 +90,7 @@ Vend::Product.each_page_v2 do |products|
 end
 
 # With filters
-Vend::Product.each_page_v2(deleted: true) do |products|
+Lightspeed::Product.each_page_v2(deleted: true) do |products|
   # Process deleted products page by page
 end
 ```
@@ -98,12 +100,12 @@ end
 For backward compatibility, `.all` returns only the first page:
 
 ```ruby
-response = Vend::Product.all
+response = Lightspeed::Product.all
 products = response[:data]          # First page of products
 version = response[:version][:max]  # Cursor for next page
 
 # Manual pagination
-next_page = Vend::Product.all(after: version)
+next_page = Lightspeed::Product.all(after: version)
 ```
 
 ## Error Handling & Retry Logic
@@ -123,7 +125,7 @@ Configuration:
 
 ```ruby
 # This will automatically retry if rate limited
-products = Vend::Product.auto_paginate_v2
+products = Lightspeed::Product.auto_paginate_v2
 
 # No additional code needed - retry happens automatically!
 ```
@@ -134,66 +136,66 @@ All API errors raise specific exceptions:
 
 ```ruby
 begin
-  product = Vend::Product.find("invalid-id")
-rescue Vend::NotFound => e
+  product = Lightspeed::Product.find("invalid-id")
+rescue Lightspeed::NotFound => e
   puts "Product not found"
-rescue Vend::TooManyRequests => e
+rescue Lightspeed::TooManyRequests => e
   # Already retried 3 times, still rate limited
   puts "Rate limit exceeded, retry after: #{e.response_headers[:retry_after]}"
-rescue Vend::Unauthorized => e
+rescue Lightspeed::Unauthorized => e
   puts "Invalid access token"
-rescue Vend::HttpError => e
+rescue Lightspeed::HttpError => e
   # Catch-all for any HTTP error
   puts "API error: #{e.message}"
 end
 ```
 
 Available exceptions:
-- `Vend::BadRequest` (400)
-- `Vend::Unauthorized` (401)
-- `Vend::Forbidden` (403)
-- `Vend::NotFound` (404)
-- `Vend::TooManyRequests` (429)
-- `Vend::InternalServerError` (500)
-- `Vend::ServiceUnavailable` (503)
-- And more... (see [lib/vend/exception.rb](lib/vend/exception.rb))
+- `Lightspeed::BadRequest` (400)
+- `Lightspeed::Unauthorized` (401)
+- `Lightspeed::Forbidden` (403)
+- `Lightspeed::NotFound` (404)
+- `Lightspeed::TooManyRequests` (429)
+- `Lightspeed::InternalServerError` (500)
+- `Lightspeed::ServiceUnavailable` (503)
+- And more... (see [lib/lightspeed/exception.rb](lib/lightspeed/exception.rb))
 
 ## Available Resources
 
-All standard Vend API v2.0 resources are supported:
+All standard Lightspeed Retail API v2.0 resources are supported:
 
 ```ruby
 # Products
-Vend::Product.all
-Vend::Product.find(id)
-Vend::Product.create(params)
-Vend::Product.update(id, params)
+Lightspeed::Product.all
+Lightspeed::Product.find(id)
+Lightspeed::Product.create(params)
+Lightspeed::Product.update(id, params)
 
 # Customers
-Vend::Customer.all
-Vend::Customer.find(id)
+Lightspeed::Customer.all
+Lightspeed::Customer.find(id)
 
 # Sales
-Vend::Sale.all
-Vend::Sale.find(id)
-Vend::Sale.create(params)
+Lightspeed::Sale.all
+Lightspeed::Sale.find(id)
+Lightspeed::Sale.create(params)
 
 # Other resources
-Vend::Brand
-Vend::Consignment
-Vend::CustomerGroup
-Vend::Inventory
-Vend::Outlet
-Vend::PaymentType
-Vend::PriceBook
-Vend::Register
-Vend::Supplier
-Vend::Tax
-Vend::User
+Lightspeed::Brand
+Lightspeed::Consignment
+Lightspeed::CustomerGroup
+Lightspeed::Inventory
+Lightspeed::Outlet
+Lightspeed::PaymentType
+Lightspeed::PriceBook
+Lightspeed::Register
+Lightspeed::Supplier
+Lightspeed::Tax
+Lightspeed::User
 # ... and more
 ```
 
-See [lib/vend/resources/](lib/vend/resources/) for the complete list.
+See [lib/lightspeed/resources/](lib/lightspeed/resources/) for the complete list.
 
 ## Thread Safety
 
@@ -202,13 +204,13 @@ See [lib/vend/resources/](lib/vend/resources/) for the complete list.
 For single-threaded applications or CLIs:
 
 ```ruby
-Vend.configure do |config|
+Lightspeed.configure do |config|
   config.domain_prefix = 'your-store'
   config.access_token = 'your-token'
 end
 
 # Use resources normally
-products = Vend::Product.all
+products = Lightspeed::Product.all
 ```
 
 ### Thread-Safe Usage
@@ -217,28 +219,28 @@ For multi-threaded applications, create separate connections per thread:
 
 ```ruby
 # Create a connection
-config = Vend::Config.new(
-  domain_prefix: ENV['VEND_DOMAIN_PREFIX'],
-  access_token: ENV['VEND_ACCESS_TOKEN']
+config = Lightspeed::Config.new(
+  domain_prefix: ENV['LIGHTSPEED_DOMAIN_PREFIX'],
+  access_token: ENV['LIGHTSPEED_ACCESS_TOKEN']
 )
-connection = Vend::Connection.build(config)
+connection = Lightspeed::Connection.build(config)
 
 # Pass connection to requests
-products = Vend::Product.all(connection: connection)
-customer = Vend::Customer.find(id, connection: connection)
+products = Lightspeed::Product.all(connection: connection)
+customer = Lightspeed::Customer.find(id, connection: connection)
 
 # Example: Thread pool
 connections = ThreadLocal.new do
-  Vend::Connection.build(Vend::Config.new(
-    domain_prefix: ENV['VEND_DOMAIN_PREFIX'],
-    access_token: ENV['VEND_ACCESS_TOKEN']
+  Lightspeed::Connection.build(Lightspeed::Config.new(
+    domain_prefix: ENV['LIGHTSPEED_DOMAIN_PREFIX'],
+    access_token: ENV['LIGHTSPEED_ACCESS_TOKEN']
   ))
 end
 
 threads = 10.times.map do |i|
   Thread.new do
     conn = connections.value
-    Vend::Product.all(connection: conn)
+    Lightspeed::Product.all(connection: conn)
   end
 end
 
@@ -249,7 +251,7 @@ threads.each(&:join)
 
 ```ruby
 # Initialize OAuth2 client
-auth = Vend::Oauth2::AuthCode.new(
+auth = Lightspeed::Oauth2::AuthCode.new(
   'your-store',           # domain prefix
   'your-client-id',       # OAuth client ID
   'your-client-secret',   # OAuth client secret
@@ -277,13 +279,13 @@ All methods accept a params hash:
 
 ```ruby
 # Filter products
-active_products = Vend::Product.all(active: true)
+active_products = Lightspeed::Product.all(active: true)
 
 # Pagination with filters
-deleted_products = Vend::Product.auto_paginate_v2(deleted: true)
+deleted_products = Lightspeed::Product.auto_paginate_v2(deleted: true)
 
 # Custom connection
-products = Vend::Product.all(connection: custom_connection)
+products = Lightspeed::Product.all(connection: custom_connection)
 ```
 
 ### API Versioning
@@ -292,13 +294,13 @@ Resources automatically use the correct API version:
 
 ```ruby
 # Most resources use v2.0 API
-Vend::Product.all  # => GET /api/2.0/products
+Lightspeed::Product.all  # => GET /api/2.0/products
 
 # Some resources use v0.9 for backward compatibility
-Vend::Webhook.all  # => GET /api/webhooks (v0.9)
+Lightspeed::Webhook.all  # => GET /api/webhooks (v0.9)
 
 # Explicit version methods when needed
-Vend::Product.find_v0_9(id)  # Use v0.9 endpoint
+Lightspeed::Product.find_v0_9(id)  # Use v0.9 endpoint
 ```
 
 ## Performance & Optimization
@@ -313,9 +315,9 @@ This gem includes several performance optimizations:
 ## Configuration Options
 
 ```ruby
-Vend.configure do |config|
+Lightspeed.configure do |config|
   # Required
-  config.domain_prefix = 'your-store'   # Your Vend store name
+  config.domain_prefix = 'your-store'   # Your Lightspeed store name
   config.access_token = 'your-token'     # OAuth access token
 
   # Optional
@@ -353,7 +355,7 @@ bundle exec rspec
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/coaxsoft/vend-ruby-v2. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/coaxsoft/lightspeed-retail-ruby. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 

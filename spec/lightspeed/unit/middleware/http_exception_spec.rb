@@ -1,4 +1,4 @@
-RSpec.describe Vend::Middleware::HttpException do
+RSpec.describe Lightspeed::Middleware::HttpException do
   let(:env) do
     Hashie::Mash.new(status: status,
                      body: body,
@@ -8,7 +8,7 @@ RSpec.describe Vend::Middleware::HttpException do
   let(:body) { 'Valid' }
 
   before do
-    @e = Vend::Middleware::HttpException.new
+    @e = Lightspeed::Middleware::HttpException.new
   end
 
   it 'should check for an error on all responses' do
@@ -27,7 +27,7 @@ RSpec.describe Vend::Middleware::HttpException do
     let(:body) { 'Error' }
 
     it 'should throw an exception' do
-      expect { @e.on_complete env }.to raise_exception(Vend::NotFound)
+      expect { @e.on_complete env }.to raise_exception(Lightspeed::NotFound)
     end
   end
 end

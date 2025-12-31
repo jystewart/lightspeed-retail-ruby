@@ -1,4 +1,4 @@
-RSpec.describe Vend::Oauth2::AuthCode do
+RSpec.describe Lightspeed::Oauth2::AuthCode do
   subject { described_class.new('store', 'client_id', 'secret', 'redirect_uri') }
 
   describe '#initialize' do
@@ -11,12 +11,12 @@ RSpec.describe Vend::Oauth2::AuthCode do
   end
 
   it 'creates an instance of Client' do
-    expect(subject).to be_a Vend::Oauth2::AuthCode
+    expect(subject).to be_a Lightspeed::Oauth2::AuthCode
   end
 
   describe '#authorize_url' do
     it 'return url' do
-      expect(subject.authorize_url).to eq('https://secure.vendhq.com/connect?client_id=client_id&redirect_uri=redirect_uri&response_type=code')
+      expect(subject.authorize_url).to eq('https://secure.lightspeedhq.com/connect?client_id=client_id&redirect_uri=redirect_uri&response_type=code')
     end
   end
 
@@ -27,7 +27,7 @@ RSpec.describe Vend::Oauth2::AuthCode do
     let(:refresh_token) { 'nbCoejmJp1XZgs7as6FeQQ5QZLlUfefzaBjrxvtV' }
 
     before do
-      stub_request(:post, 'https://store.vendhq.com/api/1.0/token')
+      stub_request(:post, 'https://store.lightspeedhq.com/api/1.0/token')
         .to_return(status: 200, body: { token_type: token_type,
                                         expires: 2_435_942_384,
                                         domain_prefix: store,

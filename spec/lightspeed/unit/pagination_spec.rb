@@ -2,12 +2,12 @@
 
 RSpec.describe 'Pagination' do
   before do
-    module Vend
+    module Lightspeed
       class PaginatedResource
         include ResourceActions.new(api_version: '2.0', uri: 'products')
       end
     end
-    @klass = Vend::PaginatedResource
+    @klass = Lightspeed::PaginatedResource
   end
 
   describe '.auto_paginate_v2' do
