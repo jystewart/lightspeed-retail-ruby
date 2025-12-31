@@ -44,6 +44,51 @@ module Vend
         raise ArgumentError if resource_id.nil?
         delete path.build(resource_id), params
       end
+
+      # Automatically paginate through all pages of results using v2.0 API cursor pagination.
+      # Fetches all pages and returns a flat array of all data items.
+      #
+      # @param params [Hash] Query parameters to pass to the API
+      # @return [Array] All items from all pages combined
+      #
+      # @example
+      #   all_products = Vend::Product.auto_paginate_v2
+      #   deleted_products = Vend::Product.auto_paginate_v2(deleted: true)
+      def auto_paginate_v2(params = {})
+        results = []
+        each_page_v2(params) { |page_data| results.concat(page_data) }
+        results
+      end
+
+      # Iterate through pages of results using v2.0 API cursor pagination.
+      # Yields each page's data array to the block.
+      #
+      # @param params [Hash] Query parameters to pass to the API
+      # @yield [Array] Each page's data array
+      #
+      # @example
+      #   Vend::Product.each_page_v2 do |products|
+      #     products.each { |product| puts product[:name] }
+      #   end
+      def each_page_v2(params = {})
+        loop do
+          response = get(path.build, params)
+
+          # Yield the data if there is any
+          data = response[:data] || []
+          yield data if data.any?
+
+          # Check if there are more pages
+          break if data.empty?
+
+          # Get the cursor for the next page
+          version_max = response.dig(:version, :max)
+          break unless version_max
+
+          # Set up params for next page
+          params = params.merge(after: version_max)
+        end
+      end
     end
   end
 end
