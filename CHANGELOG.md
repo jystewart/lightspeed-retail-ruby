@@ -1,12 +1,16 @@
 # Release Notes
 
+## 0.3.1 - Critical bug fix
+
+* Fixed API domain name
+
 ## 0.3.0 - Lightspeed Rebranding
 
 ### 🎉 Major Changes
 
 * **RENAMED:** `vend-ruby-v2` → `lightspeed-retail-ruby` to reflect Lightspeed's acquisition of Vend
 * **RENAMED:** All `Vend` module/class references → `Lightspeed` throughout the codebase
-* **UPDATED:** API domain from `vendhq.com` → `lightspeedhq.com`
+* **UPDATED:** API domain from `vendhq.com` → `retail.lightspeed.app`
 * **UPDATED:** Documentation URLs from `docs.vendhq.com` → `x-series-api.lightspeedhq.com`
 * **ADDED:** Full backward compatibility layer - existing `Vend` code continues to work
 * **ADDED:** Environment variable compatibility - both `VEND_*` and `LIGHTSPEED_*` supported
@@ -42,8 +46,8 @@ The `Vend` compatibility layer will be removed in v1.0.0 (planned Q2 2026).
 * Renamed: `lib/vend/` → `lib/lightspeed/` (36 files)
 * Updated: All module declarations from `module Vend` to `module Lightspeed`
 * Updated: All internal requires from `require 'vend/*'` to `require 'lightspeed/*'`
-* Updated: API domain endpoints to `lightspeedhq.com`
-* Updated: OAuth endpoints to `secure.lightspeedhq.com`
+* Updated: API domain endpoints to `retail.lightspeed.app`
+* Updated: OAuth endpoints to `secure.retail.lightspeed.app`
 * Updated: 21 documentation URL comments to `x-series-api.lightspeedhq.com`
 * Added: `lib/vend.rb` as compatibility shim
 * Added: `lightspeed-retail-ruby.gemspec`

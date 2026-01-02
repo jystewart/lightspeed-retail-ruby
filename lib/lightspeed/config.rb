@@ -16,7 +16,7 @@ module Lightspeed
     end
 
     def api_url
-      "https://#{domain_prefix}.lightspeedhq.com/api"
+      "https://#{domain_prefix}.retail.lightspeed.app/api"
     end
 
     private

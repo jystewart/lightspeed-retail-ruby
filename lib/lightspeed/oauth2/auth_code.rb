@@ -37,7 +37,7 @@ module Lightspeed
 
       def get_oauth2_client(domain_prefix = 'secure')
         OAuth2::Client.new(client_id, secret, {
-          site: "https://#{domain_prefix}.lightspeedhq.com",
+          site: "https://#{domain_prefix}.retail.lightspeed.app",
           authorize_url: AUTHORIZE_URL,
           token_url: TOKEN_URL
         })

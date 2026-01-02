@@ -3,7 +3,7 @@
 module Vend
   class Config < Hashie::Mash
     def api_url
-      "https://#{domain_prefix}.vendhq.com/api"
+      "https://#{domain_prefix}.retail.lightspeed.app/api"
     end
   end
 end

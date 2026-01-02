@@ -37,7 +37,7 @@ RSpec.describe 'Retry Logic' do
     end
 
     it 'retries on 429 Too Many Requests' do
-      stub_request(:get, 'https://test.lightspeedhq.com/api/2.0/test')
+      stub_request(:get, 'https://test.retail.lightspeed.app/api/2.0/test')
         .to_return(
           { status: 429, headers: { 'Retry-After' => 'Wed, 01 Jan 2025 00:00:01 GMT' }, body: '{"error": "Too Many Requests"}' },
           { status: 200, body: '{"data": [{"id": 1}], "version": {"min": 1, "max": 1}}' }
@@ -52,7 +52,7 @@ RSpec.describe 'Retry Logic' do
     end
 
     it 'retries on 503 Service Unavailable' do
-      stub_request(:get, 'https://test.lightspeedhq.com/api/2.0/test')
+      stub_request(:get, 'https://test.retail.lightspeed.app/api/2.0/test')
         .to_return(
           { status: 503, body: '{"error": "Service Unavailable"}' },
           { status: 200, body: '{"data": [{"id": 1}], "version": {"min": 1, "max": 1}}' }
@@ -66,7 +66,7 @@ RSpec.describe 'Retry Logic' do
     end
 
     it 'eventually raises error if retries exhausted' do
-      stub_request(:get, 'https://test.lightspeedhq.com/api/2.0/test')
+      stub_request(:get, 'https://test.retail.lightspeed.app/api/2.0/test')
         .to_return(status: 429, headers: { 'Retry-After' => 'Wed, 01 Jan 2025 00:00:01 GMT' }, body: '{"error": "Too Many Requests"}')
         .times(4) # More than max retries
 

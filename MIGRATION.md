@@ -155,10 +155,10 @@ The gem now uses the new Lightspeed domain:
 
 ```diff
 - https://{domain_prefix}.vendhq.com/api
-+ https://{domain_prefix}.lightspeedhq.com/api
++ https://{domain_prefix}.retail.lightspeed.app/api
 
 - https://secure.vendhq.com/connect
-+ https://secure.lightspeedhq.com/connect
++ https://secure.retail.lightspeed.app/connect
 ```
 
 ### Documentation URLs

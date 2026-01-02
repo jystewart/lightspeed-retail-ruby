@@ -262,7 +262,7 @@ auth = Lightspeed::Oauth2::AuthCode.new(
 
 # Get authorization URL
 auth_url = auth.authorize_url
-# => "https://secure.vendhq.com/connect?client_id=..."
+# => "https://secure.retail.lightspeed.app/connect?client_id=..."
 
 # Exchange authorization code for token
 token = auth.token_from_code(params[:code])
