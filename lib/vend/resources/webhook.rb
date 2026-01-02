@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Webhooks
-# https://docs.vendhq.com/reference#webhooks-1
 
 module Vend
   class Webhook < Resource

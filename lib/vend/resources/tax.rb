@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Taxes
-# https://docs.vendhq.com/reference#taxes
 
 module Vend
   class Tax < Resource

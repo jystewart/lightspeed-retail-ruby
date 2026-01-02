@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Customer Groups
-# https://docs.vendhq.com/reference#customer-groups
 
 module Vend
   class CustomerGroup < Resource

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Search
-# https://docs.vendhq.com/reference#search
 
 module Vend
   class Search < Resource

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Registers
-# https://docs.vendhq.com/reference#registers
 
 module Vend
   class Register < Resource

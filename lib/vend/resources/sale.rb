@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Sale
-# https://docs.vendhq.com/reference#sales
 
 module Vend
   class Sale < Resource

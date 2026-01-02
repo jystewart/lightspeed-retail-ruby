@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Brands
-# https://docs.vendhq.com/reference#brands
 
 module Vend
   class Brand < Resource

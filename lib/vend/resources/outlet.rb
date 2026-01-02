@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Outlets
-# https://docs.vendhq.com/reference#outlets
 
 module Vend
   class Outlet < Resource

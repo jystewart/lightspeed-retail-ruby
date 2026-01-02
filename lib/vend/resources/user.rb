@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Users
-# https://docs.vendhq.com/reference#users-2
 
 module Vend
   class User < Resource

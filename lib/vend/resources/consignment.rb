@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Consignments
-# https://docs.vendhq.com/reference#consignments-2
 
 module Vend
   class Consignment < Resource

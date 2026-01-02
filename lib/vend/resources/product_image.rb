@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Product Images
-# https://docs.vendhq.com/reference#product-images
 
 module Vend
   class ProductImage < Resource

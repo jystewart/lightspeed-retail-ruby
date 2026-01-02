@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # PriceBooks
-# https://docs.vendhq.com/reference#price-books
 
 module Vend
   class PriceBook < Resource

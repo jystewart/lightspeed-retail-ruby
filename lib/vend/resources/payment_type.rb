@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # PaymentTypes
-# https://docs.vendhq.com/reference#payment-types
 
 module Vend
   class PaymentType < Resource
