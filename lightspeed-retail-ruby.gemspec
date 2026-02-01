@@ -30,8 +30,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'faraday-retry', '~> 2.2'
   spec.add_dependency 'hashie', '~> 5.0'
   spec.add_dependency 'jwt', '~> 3.1'
-  spec.add_dependency 'oauth2'
-  spec.add_dependency 'oj'
+  spec.add_dependency 'oauth2', '>= 2.0'
+  spec.add_dependency 'oj', '>= 3.0'
 
   spec.post_install_message = <<~MESSAGE
 
