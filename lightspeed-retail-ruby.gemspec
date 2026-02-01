@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
   spec.post_install_message = <<~MESSAGE
 
     ╔════════════════════════════════════════════════════════════════════════════╗
-    ║                 Lightspeed Retail Ruby v#{Lightspeed::VERSION}                          ║
+    ║                 Lightspeed Retail Ruby v#{version}                          ║
     ╠════════════════════════════════════════════════════════════════════════════╣
     ║                                                                            ║
     ║  This is the new home of vend-ruby-v2!                                     ║
