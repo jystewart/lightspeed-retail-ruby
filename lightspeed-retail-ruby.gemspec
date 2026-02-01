@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 # coding: utf-8
 
-lib = File.expand_path('lib', __dir__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'lightspeed/version'
+version = File.read(File.expand_path('lib/lightspeed/version.rb', __dir__))
+            .match(/VERSION = ['"](.+)['"]/)[1]
 
 Gem::Specification.new do |spec|
   spec.name = 'lightspeed-retail-ruby'
-  spec.version = Lightspeed::VERSION
+  spec.version = version
   spec.platform = Gem::Platform::RUBY
   spec.required_ruby_version = '>= 3.0.0'
   spec.license = 'MIT'
