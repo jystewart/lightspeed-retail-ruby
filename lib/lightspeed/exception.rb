@@ -26,13 +26,14 @@ module Lightspeed
   class ScopeError < StandardError
     def initialize(resource_class, action, required_scope)
       required_array = Array(required_scope)
-      if required_array.length == 1
-        scope_description = "'#{required_array.first}'"
+      class_name = resource_class.is_a?(Module) ? (resource_class.name || resource_class.to_s) : resource_class.to_s
+      scope_description = if required_array.length == 1
+        "'#{required_array.first}'"
       else
-        scope_description = "one of #{required_array.map { |s| "'#{s}'" }.join(', ')}"
+        "one of #{required_array.map { |s| "'#{s}'" }.join(', ')}"
       end
       super(
-        "#{resource_class}.#{action} requires OAuth scope #{scope_description}. " \
+        "#{class_name}.#{action} requires OAuth scope #{scope_description}. " \
         "Add it to your Lightspeed.configure block: config.scopes = #{required_array.inspect}"
       )
     end

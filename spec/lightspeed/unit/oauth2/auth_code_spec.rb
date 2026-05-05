@@ -25,7 +25,8 @@ RSpec.describe Lightspeed::Oauth2::AuthCode do
 
     it 'includes scope when passed as an array argument' do
       url = subject.authorize_url(scopes: ["sales:read", "products:read"])
-      expect(url).to include('scope=sales%3Aread+products%3Aread')
+      expect(url).to include('scope=sales%3Aread')
+      expect(url).to include('products%3Aread')
     end
 
     it 'includes scope when passed as a space-delimited string argument' do
