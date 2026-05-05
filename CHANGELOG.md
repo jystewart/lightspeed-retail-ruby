@@ -1,5 +1,22 @@
 # Release Notes
 
+## 0.4.0 - OAuth Scope Support
+
+Adds full support for Lightspeed's mandatory scope parameter, required for all new OAuth connections from **1 June 2026**.
+
+### New Features
+
+* **`config.scopes`** — Declare the OAuth scopes your application needs in `Lightspeed.configure`. Accepts an array or space-delimited string.
+* **Scope-aware OAuth URLs** — `Lightspeed::Oauth2::AuthCode#authorize_url` now accepts a `scopes:` keyword argument and automatically includes scopes from the global config when none are passed explicitly.
+* **`Lightspeed::ScopeError`** — Raised before any HTTP request when a resource method is called and its required scope is not in the configured scopes list. Provides a clear, actionable message.
+* **`Resource.scope_required(:action)`** — Query what scope a particular action requires, e.g. `Lightspeed::Sale.scope_required(:all) #=> "sales:read"`.
+* **`read_scope` / `write_scope` helpers** — Shorthand for declaring the same scope across all standard read or write actions on a resource class.
+* All 22 built-in resources have scope requirements declared based on the [official Lightspeed scope documentation](https://x-series-api.lightspeedhq.com/docs/scopes).
+
+### Backward Compatibility
+
+Scope checking is entirely opt-in. Existing code with no `config.scopes` configured continues to work without any changes. Scope validation is skipped unless scopes are explicitly set.
+
 ## 0.3.1 - Critical bug fix
 
 * Fixed API domain name

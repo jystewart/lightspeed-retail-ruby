@@ -6,5 +6,7 @@
 module Lightspeed
   class Search < Resource
     include Lightspeed::ResourceActions.new uri: 'search'
+
+    read_scope "products:read"
   end
 end

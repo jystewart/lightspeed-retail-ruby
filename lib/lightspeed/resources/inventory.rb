@@ -6,5 +6,7 @@
 module Lightspeed
   class Inventory < Resource
     include Lightspeed::ResourceActions.new uri: 'inventory'
+
+    read_scope "inventory:read"
   end
 end

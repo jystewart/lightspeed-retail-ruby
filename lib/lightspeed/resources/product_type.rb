@@ -6,5 +6,8 @@
 module Lightspeed
   class ProductType < Resource
     include Lightspeed::ResourceActions.new uri: 'product_types'
+
+    read_scope  "products:read"
+    write_scope "products:write"
   end
 end

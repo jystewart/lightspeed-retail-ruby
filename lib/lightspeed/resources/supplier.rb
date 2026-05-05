@@ -6,5 +6,8 @@
 module Lightspeed
   class Supplier < Resource
     include Lightspeed::ResourceActions.new uri: 'suppliers'
+
+    read_scope  "suppliers:read"
+    write_scope "suppliers:write"
   end
 end

@@ -19,6 +19,11 @@ module Lightspeed
       "https://#{domain_prefix}.retail.lightspeed.app/api"
     end
 
+    # Accept scopes as an array or a space-delimited string.
+    def scopes=(value)
+      super(Array(value).flat_map { |s| s.to_s.split(' ') }.reject(&:empty?))
+    end
+
     private
 
     def check_env_variables

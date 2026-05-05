@@ -12,6 +12,7 @@ This gem was entirely based on [Vend Ruby v2](https://github.com/coaxsoft/vend-r
 
 - ✅ **Automatic Pagination** - Efficiently handle large datasets with cursor-based pagination
 - ✅ **Automatic Retry Logic** - Built-in handling for rate limits and transient failures
+- ✅ **OAuth Scope Support** - Declare required scopes on resources; get early, clear errors for missing scopes
 - ✅ **Modern Ruby 3+** - Leverages latest Ruby features and idioms
 - ✅ **Thread-Safe** - Support for concurrent API requests
 - ✅ **Comprehensive** - Full coverage of Lightspeed Retail API v2.0 resources
@@ -43,6 +44,7 @@ $ gem install lightspeed-retail-ruby
 Lightspeed.configure do |config|
   config.domain_prefix = ENV['LIGHTSPEED_DOMAIN_PREFIX']  # Your store name
   config.access_token = ENV['LIGHTSPEED_ACCESS_TOKEN']    # OAuth token
+  config.scopes = ["products:read", "sales:read"]         # OAuth scopes (recommended)
 end
 
 # Fetch a single page of products
@@ -260,9 +262,13 @@ auth = Lightspeed::Oauth2::AuthCode.new(
   'your-redirect-uri'     # OAuth redirect URI
 )
 
-# Get authorization URL
-auth_url = auth.authorize_url
-# => "https://secure.retail.lightspeed.app/connect?client_id=..."
+# Get authorization URL — scopes are required from 1 June 2026
+# Option 1: pass scopes explicitly
+auth_url = auth.authorize_url(scopes: ["products:read", "sales:read", "customers:read"])
+
+# Option 2: configure scopes globally and they'll be picked up automatically
+Lightspeed.configure { |c| c.scopes = ["products:read", "sales:read"] }
+auth_url = auth.authorize_url  # scope parameter included automatically
 
 # Exchange authorization code for token
 token = auth.token_from_code(params[:code])
@@ -272,6 +278,85 @@ refresh_token = token.refresh_token
 # Refresh an expired token
 new_token = auth.refresh_token(access_token, refresh_token)
 ```
+
+## OAuth Scopes
+
+Lightspeed requires the `scope` parameter in all OAuth authorization requests from **1 June 2026**. This gem provides full scope support including early detection of scope mismatches before an API call is made.
+
+### Configuring Scopes
+
+Declare the scopes your application needs in `Lightspeed.configure`. Use only the scopes you actually need:
+
+```ruby
+Lightspeed.configure do |config|
+  config.domain_prefix = 'your-store'
+  config.access_token  = 'your-token'
+  config.scopes = [
+    "products:read",
+    "sales:read",
+    "customers:read",
+    "customers:write"
+  ]
+end
+```
+
+Scopes can also be passed as a space-delimited string: `config.scopes = "products:read sales:read"`.
+
+### Scope Checking
+
+When scopes are configured, calling a resource method that requires a scope not in the configured list raises `Lightspeed::ScopeError` immediately — before any HTTP request is made:
+
+```ruby
+Lightspeed.configure do |config|
+  config.scopes = ["products:read"]  # no sales scope
+end
+
+Lightspeed::Sale.all
+# => Lightspeed::ScopeError: Lightspeed::Sale.all requires OAuth scope 'sales:read'.
+#    Add it to your Lightspeed.configure block: config.scopes = ["sales:read"]
+```
+
+If no scopes are configured the check is skipped entirely, so existing code continues to work without changes.
+
+### Querying Required Scopes
+
+Use `.scope_required` to inspect what scope a particular action requires — useful when assembling your authorization URL:
+
+```ruby
+Lightspeed::Sale.scope_required(:all)     #=> "sales:read"
+Lightspeed::Sale.scope_required(:create)  #=> "sales:write"
+Lightspeed::Sale.scope_required(:return)  #=> "sales:write"
+
+Lightspeed::Product.scope_required(:find)      #=> "products:read"
+Lightspeed::Product.scope_required(:inventory) #=> "inventory:read"
+
+# Some resources require any one of several write scopes
+Lightspeed::Consignment.scope_required(:create)
+#=> ["consignments:write:inventory_count",
+#    "consignments:write:stock_order",
+#    "consignments:write:stock_transfer"]
+```
+
+### Available Scopes
+
+| Resource | Read scope | Write scope(s) |
+|---|---|---|
+| Brand, Tag, ProductType, ProductImage | `products:read` | `products:write` |
+| Consignment | `consignments:read` | `consignments:write:inventory_count` / `consignments:write:stock_order` / `consignments:write:stock_transfer` |
+| Customer, CustomerGroup | `customers:read` | `customers:write` |
+| Inventory | `inventory:read` | — |
+| Outlet | `outlets:read` | — |
+| OutletProductTax, Tax | `taxes:read` | `taxes:write` |
+| PaymentType | `payment_types:read` | — |
+| PriceBook, PriceBookProduct | `products:read:price_books` | `products:write:price_books` |
+| Product | `products:read` | `products:write` |
+| Register | `registers:read` | — |
+| Sale | `sales:read` | `sales:write` |
+| Supplier | `suppliers:read` | `suppliers:write` |
+| User | `users:read` | `users:write` |
+| Webhook | `webhooks` | `webhooks` |
+
+See [Lightspeed scope documentation](https://x-series-api.lightspeedhq.com/docs/scopes) for the full list.
 
 ## Advanced Usage
 
@@ -321,6 +406,9 @@ Lightspeed.configure do |config|
   # Required
   config.domain_prefix = 'your-store'   # Your Lightspeed store name
   config.access_token = 'your-token'     # OAuth access token
+
+  # Recommended — required for new OAuth connections from 1 June 2026
+  config.scopes = ["products:read", "sales:read"]  # Array or space-delimited string
 
   # Optional
   config.request_type = :json            # Request format (default: :json)

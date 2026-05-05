@@ -7,11 +7,16 @@ module Lightspeed
   class Webhook < Resource
     include Lightspeed::ResourceActions.new api_version: '0.9', uri: 'webhooks'
 
+    read_scope  "webhooks"
+    write_scope "webhooks"
+
     def self.create(params = {})
+      check_scope!(:create)
       make_urlencoded_request(:post, '/api/webhooks', params)
     end
 
     def self.update(resource_id, params = {})
+      check_scope!(:update)
       make_urlencoded_request(:put, "/api/webhooks/#{resource_id}", params)
     end
 

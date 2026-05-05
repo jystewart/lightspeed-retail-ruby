@@ -19,8 +19,12 @@ module Lightspeed
         @options = DEFAULT_OPTIONS.merge(options)
       end
 
-      def authorize_url
-        get_oauth2_client.auth_code.authorize_url(redirect_uri: redirect_uri)
+      def authorize_url(scopes: nil)
+        effective_scopes = scopes || Lightspeed.config&.scopes
+        params = { redirect_uri: redirect_uri }
+        scope_string = Array(effective_scopes).join(' ').strip
+        params[:scope] = scope_string unless scope_string.empty?
+        get_oauth2_client.auth_code.authorize_url(params)
       end
 
       def token_from_code(code)

@@ -6,5 +6,8 @@
 module Lightspeed
   class CustomerGroup < Resource
     include Lightspeed::ResourceActions.new uri: 'customer_groups'
+
+    read_scope  "customers:read"
+    write_scope "customers:write"
   end
 end

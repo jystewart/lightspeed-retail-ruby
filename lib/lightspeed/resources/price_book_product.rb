@@ -6,5 +6,8 @@
 module Lightspeed
   class PriceBookProduct < Resource
     include Lightspeed::ResourceActions.new uri: 'price_book_products'
+
+    read_scope  "products:read:price_books"
+    write_scope "products:write:price_books"
   end
 end

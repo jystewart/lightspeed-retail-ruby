@@ -6,5 +6,8 @@
 module Lightspeed
   class Tag < Resource
     include Lightspeed::ResourceActions.new uri: 'tags'
+
+    read_scope  "products:read"
+    write_scope "products:write"
   end
 end

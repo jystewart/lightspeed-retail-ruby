@@ -6,5 +6,7 @@
 module Lightspeed
   class Register < Resource
     include Lightspeed::ResourceActions.new uri: 'registers'
+
+    read_scope "registers:read"
   end
 end

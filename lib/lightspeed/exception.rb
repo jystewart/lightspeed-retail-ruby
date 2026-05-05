@@ -23,6 +23,21 @@ module Lightspeed
   class GatewayTimeout < HttpError; end
   class BandwidthLimitExceeded < HttpError; end
 
+  class ScopeError < StandardError
+    def initialize(resource_class, action, required_scope)
+      required_array = Array(required_scope)
+      if required_array.length == 1
+        scope_description = "'#{required_array.first}'"
+      else
+        scope_description = "one of #{required_array.map { |s| "'#{s}'" }.join(', ')}"
+      end
+      super(
+        "#{resource_class}.#{action} requires OAuth scope #{scope_description}. " \
+        "Add it to your Lightspeed.configure block: config.scopes = #{required_array.inspect}"
+      )
+    end
+  end
+
   module HttpErrors
     ERRORS = {
       400 => Lightspeed::BadRequest,

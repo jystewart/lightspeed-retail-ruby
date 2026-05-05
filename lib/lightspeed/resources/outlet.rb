@@ -6,5 +6,7 @@
 module Lightspeed
   class Outlet < Resource
     include Lightspeed::ResourceActions.new uri: 'outlets'
+
+    read_scope "outlets:read"
   end
 end

@@ -15,8 +15,47 @@ RSpec.describe Lightspeed::Oauth2::AuthCode do
   end
 
   describe '#authorize_url' do
-    it 'return url' do
-      expect(subject.authorize_url).to eq('https://secure.retail.lightspeed.app/connect?client_id=client_id&redirect_uri=redirect_uri&response_type=code')
+    after { Lightspeed.instance_variable_set(:@config, nil) }
+
+    it 'returns url without scope when no scopes are configured or passed' do
+      expect(subject.authorize_url).to eq(
+        'https://secure.retail.lightspeed.app/connect?client_id=client_id&redirect_uri=redirect_uri&response_type=code'
+      )
+    end
+
+    it 'includes scope when passed as an array argument' do
+      url = subject.authorize_url(scopes: ["sales:read", "products:read"])
+      expect(url).to include('scope=sales%3Aread+products%3Aread')
+    end
+
+    it 'includes scope when passed as a space-delimited string argument' do
+      url = subject.authorize_url(scopes: "sales:read products:read")
+      expect(url).to include('scope=')
+      expect(url).to include('sales')
+      expect(url).to include('products')
+    end
+
+    it 'reads scopes from Lightspeed.config when not passed explicitly' do
+      Lightspeed.configure do |c|
+        c.domain_prefix = 'test'
+        c.access_token  = 'token'
+        c.scopes        = ["customers:read", "sales:read"]
+      end
+      url = subject.authorize_url
+      expect(url).to include('scope=')
+      expect(url).to include('customers')
+      expect(url).to include('sales')
+    end
+
+    it 'explicit scopes take precedence over configured scopes' do
+      Lightspeed.configure do |c|
+        c.domain_prefix = 'test'
+        c.access_token  = 'token'
+        c.scopes        = ["customers:read"]
+      end
+      url = subject.authorize_url(scopes: ["sales:read"])
+      expect(url).to include('sales')
+      expect(url).not_to include('customers')
     end
   end
 

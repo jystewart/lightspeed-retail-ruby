@@ -6,5 +6,8 @@
 module Lightspeed
   class ProductImage < Resource
     include Lightspeed::ResourceActions.new uri: 'product_images'
+
+    read_scope  "products:read"
+    write_scope "products:write"
   end
 end

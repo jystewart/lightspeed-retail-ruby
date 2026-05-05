@@ -6,5 +6,7 @@
 module Lightspeed
   class PaymentType < Resource
     include Lightspeed::ResourceActions.new uri: 'payment_types'
+
+    read_scope "payment_types:read"
   end
 end
