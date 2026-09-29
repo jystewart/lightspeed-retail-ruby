@@ -45,7 +45,9 @@ module Lightspeed
 
         conn.use Lightspeed::Middleware::Auth, config
         conn.use Lightspeed::Middleware::HttpException
-        conn.adapter Faraday.default_adapter
+        # config.adapter takes a Faraday adapter name, optionally with its options,
+        # e.g. :net_http_persistent or [:net_http_persistent, { pool_size: 5 }]
+        conn.adapter(*Array(config[:adapter] || Faraday.default_adapter))
       end
     end
   end

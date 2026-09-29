@@ -1,5 +1,9 @@
 # Release Notes
 
+## Unreleased
+
+* **`config.adapter`** — Choose the Faraday adapter for API connections, e.g. `:net_http_persistent` to reuse connections instead of paying a TCP/TLS handshake on every request. Accepts an adapter name or `[name, options]`. Defaults to `Faraday.default_adapter`, so existing configurations are unchanged.
+
 ## 0.4.0 - OAuth Scope Support
 
 Adds full support for Lightspeed's mandatory scope parameter, required for all new OAuth connections from **1 June 2026**.
