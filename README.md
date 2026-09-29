@@ -413,6 +413,8 @@ Lightspeed.configure do |config|
   # Optional
   config.request_type = :json            # Request format (default: :json)
   # config.request_type = :url_encoded   # For webhooks
+  config.adapter = :net_http_persistent  # Faraday adapter (default: Faraday.default_adapter)
+                                         # Add the adapter's gem to your Gemfile
 
   # Note: Timeout, retry, and other connection settings are
   # configured automatically with sensible defaults
@@ -423,6 +425,7 @@ Default connection settings:
 - Timeout: 120 seconds
 - Retry: 3 attempts with exponential backoff
 - Rate limit handling: Automatic with `Retry-After` header support
+- Adapter: `Faraday.default_adapter` (plain `net_http`, which opens a new connection per request). Setting `config.adapter = :net_http_persistent` (from the `faraday-net_http_persistent` gem) reuses connections, saving the TCP/TLS handshake on every call after the first
 
 ## Development
 
